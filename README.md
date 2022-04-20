@@ -11,3 +11,7 @@ Note: if you need to bring a file create date forward, please use SetFile.
 Download and open in Automator, then save so this is available via Finder when accessing Quick Actions for a folder/directory.
 
 Read the confirmation and select OK to continue.
+
+## Known limitations
+
+All directories MUST be prefixed with the date format else will error.
