@@ -65,10 +65,12 @@
 					<false/>
 					<key>explanationText</key>
 					<string>This will set the creation date of each file based on the name of the folder it is within.
-The folder name needs to start with YYYYMMDD.
+The folder name needs to start with a date in the format YYYYMMDD.
 For example “19750202 - a great day” will set the file with a create date of 2nd Feb 1975.
-It will work through all child directories.
-Note: if you need to bring a file create date forward, please use SetFile.</string>
+You can select multiple folders.
+
+KNOWN LIMITATION: Will not bring a file create date forward, for example from 1975 to 1999, please use SetFile.
+KNOWN LIMITATION: Cannot select a top level folder with many folders for processing.</string>
 					<key>negativeTitle</key>
 					<string>Cancel</string>
 					<key>questionText</key>
@@ -177,7 +179,7 @@ Note: if you need to bring a file create date forward, please use SetFile.</stri
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
-				<string>354.500000:319.000000</string>
+				<string>530.500000:399.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Ask for Confirmation.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -277,7 +279,7 @@ Note: if you need to bring a file create date forward, please use SetFile.</stri
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
-				<string>354.500000:420.000000</string>
+				<string>530.500000:556.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Get Folder Contents.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -292,156 +294,76 @@ Note: if you need to bring a file create date forward, please use SetFile.</stri
 					<key>Container</key>
 					<string>List</string>
 					<key>Optional</key>
-					<false/>
+					<true/>
 					<key>Types</key>
 					<array>
-						<string>com.apple.cocoa.path</string>
+						<string>*</string>
 					</array>
 				</dict>
 				<key>AMActionVersion</key>
-				<string>2.1.1</string>
+				<string>1.0.2</string>
 				<key>AMApplication</key>
 				<array>
-					<string>Finder</string>
+					<string>Automator</string>
 				</array>
 				<key>AMParameterProperties</key>
-				<dict>
-					<key>itemType</key>
-					<dict/>
-					<key>predicate</key>
-					<dict/>
-				</dict>
+				<dict/>
 				<key>AMProvides</key>
 				<dict>
 					<key>Container</key>
 					<string>List</string>
 					<key>Types</key>
 					<array>
-						<string>com.apple.cocoa.path</string>
+						<string>*</string>
 					</array>
 				</dict>
-				<key>AMRequiredResources</key>
-				<array/>
-				<key>AMSelectedInputType</key>
-				<string>com.apple.cocoa.path</string>
-				<key>AMSelectedOutputType</key>
-				<string>com.apple.cocoa.path</string>
 				<key>ActionBundlePath</key>
-				<string>/System/Library/Automator/Filter Finder Items 2.action</string>
+				<string>/System/Library/Automator/View Results.action</string>
 				<key>ActionName</key>
-				<string>Filter Finder Items</string>
+				<string>View Results</string>
 				<key>ActionParameters</key>
-				<dict>
-					<key>itemType</key>
-					<string>com.apple.cocoa.path</string>
-					<key>predicate</key>
-					<data>
-					YnBsaXN0MDDUAQIDBAUGBwpYJHZlcnNpb25Z
-					JGFyY2hpdmVyVCR0b3BYJG9iamVjdHMSAAGG
-					oF8QD05TS2V5ZWRBcmNoaXZlctEICVRyb290
-					gAGvEBYLDBMYICorLTQ4PT5BRUknTlFZXWFj
-					VSRudWxs0w0ODxAREl8QF05TQ29tcG91bmRQ
-					cmVkaWNhdGVUeXBlXxAPTlNTdWJwcmVkaWNh
-					dGVzViRjbGFzcxABgAKAFdIUDxUXWk5TLm9i
-					amVjdHOhFoADgBTUDxkaGxwdHh9fEBFOU1Jp
-					Z2h0RXhwcmVzc2lvbl8QEE5TTGVmdEV4cHJl
-					c3Npb25fEBNOU1ByZWRpY2F0ZU9wZXJhdG9y
-					gBOADoAEgBHVISIjJA8lJicoKVlOU09wZXJh
-					bmReTlNTZWxlY3Rvck5hbWVfEBBOU0V4cHJl
-					c3Npb25UeXBlW05TQXJndW1lbnRzgAaABRAD
-					gAiADVx2YWx1ZUZvcktleTrSIw8QLIAH0i4v
-					MDFaJGNsYXNzbmFtZVgkY2xhc3Nlc18QEE5T
-					U2VsZkV4cHJlc3Npb26jMDIzXE5TRXhwcmVz
-					c2lvblhOU09iamVjdNIUDzU3oTaACYAM0w8j
-					OTo7PFlOU0tleVBhdGiACxAKgApUa2luZNIu
-					Lz9AXxAcTlNLZXlQYXRoU3BlY2lmaWVyRXhw
-					cmVzc2lvbqM/MjPSLi9CQ15OU011dGFibGVB
-					cnJheaNCRDNXTlNBcnJhedIuL0ZHXxATTlNL
-					ZXlQYXRoRXhwcmVzc2lvbqRGSDIzXxAUTlNG
-					dW5jdGlvbkV4cHJlc3Npb27TSiMPS0xNXxAP
-					TlNDb25zdGFudFZhbHVlgA8QAIAQ0i4vT1Bf
-					EBlOU0NvbnN0YW50VmFsdWVFeHByZXNzaW9u
-					o08yM9UPUlNUVVZMV0xYWk5TTW9kaWZpZXJY
-					TlNOZWdhdGVZTlNPcHRpb25zXk5TT3BlcmF0
-					b3JUeXBlgBIJEAXSLi9aW18QG05TRXF1YWxp
-					dHlQcmVkaWNhdGVPcGVyYXRvcqNaXDNfEBNO
-					U1ByZWRpY2F0ZU9wZXJhdG9y0i4vXl9fEBVO
-					U0NvbXBhcmlzb25QcmVkaWNhdGWjXmAzW05T
-					UHJlZGljYXRl0i4vRGKiRDPSLi9kZV8QE05T
-					Q29tcG91bmRQcmVkaWNhdGWjZGAzAAgAEQAa
-					ACQAKQAyADcASQBMAFEAUwBsAHIAeQCTAKUA
-					rACuALAAsgC3AMIAxADGAMgA0QDlAPgBDgEQ
-					ARIBFAEWASEBKwE6AU0BWQFbAV0BXwFhAWMB
-					cAF1AXcBfAGHAZABowGnAbQBvQHCAcQBxgHI
-					Ac8B2QHbAd0B3wHkAekCCAIMAhECIAIkAiwC
-					MQJHAkwCYwJqAnwCfgKAAoIChwKjAqcCsgK9
-					AsYC0ALfAuEC4gLkAukDBwMLAyEDJgM+A0ID
-					TgNTA1YDWwNxAAAAAAAAAgEAAAAAAAAAZgAA
-					AAAAAAAAAAAAAAAAA3U=
-					</data>
-				</dict>
+				<dict/>
 				<key>BundleIdentifier</key>
-				<string>com.apple.Automator.FilterFinderItems2</string>
+				<string>com.apple.Automator.LogOutput</string>
 				<key>CFBundleVersion</key>
-				<string>2.1.1</string>
+				<string>1.0.2</string>
 				<key>CanShowSelectedItemsWhenRun</key>
-				<false/>
-				<key>CanShowWhenRun</key>
 				<true/>
+				<key>CanShowWhenRun</key>
+				<false/>
 				<key>Category</key>
 				<array>
-					<string>AMCategoryFilesAndFolders</string>
+					<string>AMCategoryUtilities</string>
 				</array>
 				<key>Class Name</key>
-				<string>Filter_Finder_Items_2</string>
+				<string>LogOutputAction</string>
 				<key>InputUUID</key>
-				<string>14F7E810-9C22-451D-B595-F50612F65348</string>
+				<string>9AD13F4F-980E-4E8E-82C7-B6A60510306D</string>
 				<key>Keywords</key>
-				<array/>
+				<array>
+					<string>Display</string>
+					<string>Show</string>
+					<string>Log</string>
+					<string>Output</string>
+				</array>
 				<key>OutputUUID</key>
-				<string>75C3FDE2-91F6-4F58-8478-0ADD9DD08211</string>
+				<string>CFB28078-D7E7-4B16-B4BC-857723AFE25E</string>
 				<key>UUID</key>
-				<string>E7E440D5-37A1-44BA-86A8-89D9ABAB5600</string>
+				<string>7D3B31B0-8619-4EC0-9491-3815796C4975</string>
 				<key>UnlocalizedApplications</key>
 				<array>
-					<string>Finder</string>
+					<string>Automator</string>
 				</array>
 				<key>arguments</key>
-				<dict>
-					<key>0</key>
-					<dict>
-						<key>default value</key>
-						<string>com.apple.cocoa.path</string>
-						<key>name</key>
-						<string>itemType</string>
-						<key>required</key>
-						<string>0</string>
-						<key>type</key>
-						<string>0</string>
-						<key>uuid</key>
-						<string>0</string>
-					</dict>
-					<key>1</key>
-					<dict>
-						<key>default value</key>
-						<data>
-						</data>
-						<key>name</key>
-						<string>predicate</string>
-						<key>required</key>
-						<string>0</string>
-						<key>type</key>
-						<string>0</string>
-						<key>uuid</key>
-						<string>1</string>
-					</dict>
-				</dict>
+				<dict/>
+				<key>conversionLabel</key>
+				<integer>0</integer>
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
-				<string>354.500000:593.000000</string>
+				<string>530.500000:805.000000</string>
 				<key>nibPath</key>
-				<string>/System/Library/Automator/Filter Finder Items 2.action/Contents/Resources/Base.lproj/main.nib</string>
+				<string>/System/Library/Automator/View Results.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
 			<integer>1</integer>
@@ -496,12 +418,18 @@ Note: if you need to bring a file create date forward, please use SetFile.</stri
 				<dict>
 					<key>COMMAND_STRING</key>
 					<string>ARGV.each do |path|
+	# get the current full directory path
 	fullpath = File.expand_path(File.dirname(path))
 	dirname = File.basename(fullpath)
-	print dirname
+
+	# obtain the date from the beginning of the directory
 	createDate = dirname.slice(/^\d{8}/)
+
+	# construct the date and time string
 	time = File.ctime(path).strftime("%H%M")
 	new_date = createDate + time
+
+	# set the file access and modification
 	command = 'touch -cmt ' + new_date + ' "' + path + '"'
 	system('logger CreateDateFixer: ' + command)
 	result = system(command)
@@ -621,7 +549,7 @@ end</string>
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
-				<string>354.500000:775.000000</string>
+				<string>530.500000:1105.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -631,21 +559,21 @@ end</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>38833834-1EEF-4A37-B994-B852796BD3AC</key>
+		<key>0F792110-B308-425D-A848-CA469C30FE0A</key>
 		<dict>
 			<key>from</key>
-			<string>E7E440D5-37A1-44BA-86A8-89D9ABAB5600 - E7E440D5-37A1-44BA-86A8-89D9ABAB5600</string>
+			<string>7D3B31B0-8619-4EC0-9491-3815796C4975 - 7D3B31B0-8619-4EC0-9491-3815796C4975</string>
 			<key>to</key>
 			<string>CC92683D-BB40-44BD-A8EA-0E7C1ECB040C - CC92683D-BB40-44BD-A8EA-0E7C1ECB040C</string>
 		</dict>
-		<key>DA854A06-369E-45E7-847D-CDDE3C1B7943</key>
+		<key>316B9A37-73D2-4CF2-8672-66A442928075</key>
 		<dict>
 			<key>from</key>
 			<string>89CEDAD3-6C9E-47A9-877C-E42C17554782 - 89CEDAD3-6C9E-47A9-877C-E42C17554782</string>
 			<key>to</key>
-			<string>E7E440D5-37A1-44BA-86A8-89D9ABAB5600 - E7E440D5-37A1-44BA-86A8-89D9ABAB5600</string>
+			<string>7D3B31B0-8619-4EC0-9491-3815796C4975 - 7D3B31B0-8619-4EC0-9491-3815796C4975</string>
 		</dict>
-		<key>F2C74BF1-8070-4533-9486-E1EC0CED3FD8</key>
+		<key>FD34C08A-E81C-4230-8DF6-FA6A4E615FDC</key>
 		<dict>
 			<key>from</key>
 			<string>77B2E872-C93F-4CDB-8AB4-089BE25CB976 - 77B2E872-C93F-4CDB-8AB4-089BE25CB976</string>
