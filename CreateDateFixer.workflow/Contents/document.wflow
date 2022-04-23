@@ -64,13 +64,13 @@
 					<key>displayWarning</key>
 					<false/>
 					<key>explanationText</key>
-					<string>This will set the creation date of each file based on the name of the folder it is within.
-The folder name needs to start with a date in the format YYYYMMDD.
+					<string>This will set the creation date of each file based on the name of the folder it is within, provided the folder name starts with a date in the format YYYYMMDD.
 For example “19750202 - a great day” will set the file with a create date of 2nd Feb 1975.
-You can select multiple folders.
+You can select multiple folders and/or a top-level folder containing many folders.
+Will ignore folders without date prefix.
+Will ignore files within top-level folder.
 
-KNOWN LIMITATION: Will not bring a file create date forward, for example from 1975 to 1999, please use SetFile.
-KNOWN LIMITATION: Cannot select a top level folder with many folders for processing.</string>
+KNOWN LIMITATION: Will not bring a file create date forward, for example from 1975 to 1999, please use SetFile.</string>
 					<key>negativeTitle</key>
 					<string>Cancel</string>
 					<key>questionText</key>
@@ -179,7 +179,7 @@ KNOWN LIMITATION: Cannot select a top level folder with many folders for process
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
-				<string>530.500000:399.000000</string>
+				<string>302.500000:529.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Ask for Confirmation.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -279,7 +279,7 @@ KNOWN LIMITATION: Cannot select a top level folder with many folders for process
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
-				<string>530.500000:556.000000</string>
+				<string>302.500000:630.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Get Folder Contents.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -356,12 +356,10 @@ KNOWN LIMITATION: Cannot select a top level folder with many folders for process
 				</array>
 				<key>arguments</key>
 				<dict/>
-				<key>conversionLabel</key>
-				<integer>0</integer>
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
-				<string>530.500000:805.000000</string>
+				<string>302.500000:810.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/View Results.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -418,24 +416,32 @@ KNOWN LIMITATION: Cannot select a top level folder with many folders for process
 				<dict>
 					<key>COMMAND_STRING</key>
 					<string>ARGV.each do |path|
-	# get the current full directory path
-	fullpath = File.expand_path(File.dirname(path))
-	dirname = File.basename(fullpath)
-
-	# obtain the date from the beginning of the directory
-	createDate = dirname.slice(/^\d{8}/)
-
-	# construct the date and time string
-	time = File.ctime(path).strftime("%H%M")
-	new_date = createDate + time
-
-	# set the file access and modification
-	command = 'touch -cmt ' + new_date + ' "' + path + '"'
-	system('logger CreateDateFixer: ' + command)
-	result = system(command)
-	unless result
-		system('logger ' + result)
-	end
+	# process files not directories
+	if File.file?(path)
+        # obtain the date from the directory name
+        fullpath = File.expand_path(File.dirname(path))
+        dirname = File.basename(fullpath)
+        createDate = dirname.slice(/\A\d{8}/)
+        
+        if createDate.nil?
+            puts "IGNORING - no date prefix in folder name: " + path
+        else           
+            # only process files in a folder that has a date prefix
+            puts "PROCESSING: " + path
+            time = File.ctime(path).strftime("%H%M")
+            new_date = createDate + time
+            
+            # set the file access and modification
+            command = 'touch -cmt ' + new_date + ' "' + path + '"'
+            system('logger CreateDateFixer: ' + command)
+            result = system(command)
+            unless result
+                system('logger ' + result)
+            end
+        end
+    else
+        puts "IGNORING - directory: " + path
+    end
 end</string>
 					<key>CheckedForUserDefaultShell</key>
 					<true/>
@@ -549,9 +555,89 @@ end</string>
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
-				<string>530.500000:1105.000000</string>
+				<string>302.500000:1409.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
+			</dict>
+			<key>isViewVisible</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>action</key>
+			<dict>
+				<key>AMAccepts</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Optional</key>
+					<true/>
+					<key>Types</key>
+					<array>
+						<string>*</string>
+					</array>
+				</dict>
+				<key>AMActionVersion</key>
+				<string>1.0.2</string>
+				<key>AMApplication</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>AMParameterProperties</key>
+				<dict/>
+				<key>AMProvides</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Types</key>
+					<array>
+						<string>*</string>
+					</array>
+				</dict>
+				<key>ActionBundlePath</key>
+				<string>/System/Library/Automator/View Results.action</string>
+				<key>ActionName</key>
+				<string>View Results</string>
+				<key>ActionParameters</key>
+				<dict/>
+				<key>BundleIdentifier</key>
+				<string>com.apple.Automator.LogOutput</string>
+				<key>CFBundleVersion</key>
+				<string>1.0.2</string>
+				<key>CanShowSelectedItemsWhenRun</key>
+				<true/>
+				<key>CanShowWhenRun</key>
+				<false/>
+				<key>Category</key>
+				<array>
+					<string>AMCategoryUtilities</string>
+				</array>
+				<key>Class Name</key>
+				<string>LogOutputAction</string>
+				<key>InputUUID</key>
+				<string>BDE289B0-2157-4428-9503-92971F6D7463</string>
+				<key>Keywords</key>
+				<array>
+					<string>Display</string>
+					<string>Show</string>
+					<string>Log</string>
+					<string>Output</string>
+				</array>
+				<key>OutputUUID</key>
+				<string>92945812-15EC-4D64-BB6A-205EDF513D39</string>
+				<key>UUID</key>
+				<string>C166F2F0-3B31-48B3-99A8-0997607BAAF7</string>
+				<key>UnlocalizedApplications</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>arguments</key>
+				<dict/>
+				<key>isViewVisible</key>
+				<integer>1</integer>
+				<key>location</key>
+				<string>302.500000:1589.000000</string>
+				<key>nibPath</key>
+				<string>/System/Library/Automator/View Results.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
 			<integer>1</integer>
@@ -559,26 +645,33 @@ end</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>0F792110-B308-425D-A848-CA469C30FE0A</key>
+		<key>1903D324-FEEB-4323-A31F-F4C600156425</key>
+		<dict>
+			<key>from</key>
+			<string>77B2E872-C93F-4CDB-8AB4-089BE25CB976 - 77B2E872-C93F-4CDB-8AB4-089BE25CB976</string>
+			<key>to</key>
+			<string>89CEDAD3-6C9E-47A9-877C-E42C17554782 - 89CEDAD3-6C9E-47A9-877C-E42C17554782</string>
+		</dict>
+		<key>347AB212-B0C1-452F-974E-1E26D9B5B153</key>
+		<dict>
+			<key>from</key>
+			<string>89CEDAD3-6C9E-47A9-877C-E42C17554782 - 89CEDAD3-6C9E-47A9-877C-E42C17554782</string>
+			<key>to</key>
+			<string>7D3B31B0-8619-4EC0-9491-3815796C4975 - 7D3B31B0-8619-4EC0-9491-3815796C4975</string>
+		</dict>
+		<key>8F30837C-874D-4B64-9C5B-DD5B98C28282</key>
 		<dict>
 			<key>from</key>
 			<string>7D3B31B0-8619-4EC0-9491-3815796C4975 - 7D3B31B0-8619-4EC0-9491-3815796C4975</string>
 			<key>to</key>
 			<string>CC92683D-BB40-44BD-A8EA-0E7C1ECB040C - CC92683D-BB40-44BD-A8EA-0E7C1ECB040C</string>
 		</dict>
-		<key>316B9A37-73D2-4CF2-8672-66A442928075</key>
+		<key>B727FE65-D5A7-4B83-9747-F4C0890E895F</key>
 		<dict>
 			<key>from</key>
-			<string>89CEDAD3-6C9E-47A9-877C-E42C17554782 - 89CEDAD3-6C9E-47A9-877C-E42C17554782</string>
+			<string>CC92683D-BB40-44BD-A8EA-0E7C1ECB040C - CC92683D-BB40-44BD-A8EA-0E7C1ECB040C</string>
 			<key>to</key>
-			<string>7D3B31B0-8619-4EC0-9491-3815796C4975 - 7D3B31B0-8619-4EC0-9491-3815796C4975</string>
-		</dict>
-		<key>FD34C08A-E81C-4230-8DF6-FA6A4E615FDC</key>
-		<dict>
-			<key>from</key>
-			<string>77B2E872-C93F-4CDB-8AB4-089BE25CB976 - 77B2E872-C93F-4CDB-8AB4-089BE25CB976</string>
-			<key>to</key>
-			<string>89CEDAD3-6C9E-47A9-877C-E42C17554782 - 89CEDAD3-6C9E-47A9-877C-E42C17554782</string>
+			<string>C166F2F0-3B31-48B3-99A8-0997607BAAF7 - C166F2F0-3B31-48B3-99A8-0997607BAAF7</string>
 		</dict>
 	</dict>
 	<key>variables</key>
